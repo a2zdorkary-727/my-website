@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MSI G244F E2 – Product Page (Clean)</title>
+
+<style>
+  :root{
+    --blue:#4a6cf7;         /* medium blue */
+    --blue-ghost:#eaf0ff;   /* light blue bg chips */
+    --text:#0b0b0b;
+    --muted:#445;
+    --green:#10b981;
+    --line:#e7e7ee;
+  }
+
+  /* Base */
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:"Times New Roman", serif; background:#fff; color:var(--text)}
+  a{color:var(--blue); text-decoration:none}
+
+  /* ===== Header (same across site) ===== */
+  .header{display:flex;align-items:center;gap:18px;padding:12px 20px;background:#fff;border-bottom:1px solid #e6e6e6;position:sticky;top:0;z-index:100}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#0b2447;font-weight:800;font-size:20px}
+  .logo img{width:32px;height:32px;border-radius:50%;outline:2px solid var(--blue)}
+  .search-wrap{flex:1;display:flex;justify-content:center}
+  .searchbar{display:flex;align-items:center;width:100%;max-width:720px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+  .search-inner{display:flex;align-items:center;gap:10px;flex:1;padding:0 10px}
+  .search-inner .glass{font-size:18px;color:#314267}
+  .search-input{flex:1;border:none;outline:none;font-size:14px;padding:10px 0}
+  .search-btn{background:var(--blue);color:#fff;border:none;height:100%;padding:10px 18px;font-weight:800;cursor:pointer}
+  .toolbar{display:flex;align-items:center;gap:22px}
+  .account{display:flex;align-items:center;gap:8px;color:#1f2a44;text-decoration:none}
+  .icon-btn{position:relative;text-decoration:none;color:#0b1630;display:flex;align-items:center;border:none;background:transparent;cursor:pointer}
+  .icon-btn i{font-size:20px}
+  .badge{position:absolute;top:-6px;right:-9px;min-width:16px;height:16px;padding:0 3px;border-radius:10px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;border:2px solid #fff}
+  .cart-total{font-size:13px;color:#1a2547}
+  .cart-total strong{font-weight:800}
+
+  /* Drawer (mini cart) */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.25);display:none;z-index:120}
+  .overlay.show{display:block}
+  .drawer{position:fixed;top:0;right:0;width:380px;max-width:90vw;height:100vh;background:#fff;border-left:1px solid #e5e9f2;box-shadow:0 14px 34px rgba(0,0,0,.14);transform:translateX(100%);transition:transform .35s;z-index:130;display:flex;flex-direction:column}
+  .drawer.open{transform:translateX(0)}
+  .drawer-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-bottom:1px solid #eef2f7;background:#f8fafc;font-weight:700}
+  .drawer-body{padding:10px 14px;overflow:auto}
+  .drawer-footer{border-top:1px solid #eef2f7;padding:14px;background:#fff}
+  .subtotal{font-weight:800;text-align:center;margin-bottom:10px}
+  .view-cart-btn{width:100%;background:#000;color:#fff;border:none;padding:12px 14px;border-radius:6px;font-weight:700;cursor:pointer}
+  .mc-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px dashed #eef1f6}
+  .mc-thumb{width:60px;height:60px;border:1px solid #edf1f6;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff}
+  .mc-thumb img{max-width:100%;max-height:100%;object-fit:contain}
+  .mc-meta{flex:1}
+  .mc-title{font-size:13px;font-weight:700;line-height:1.3;margin-bottom:6px}
+  .mc-line{font-size:12px;color:#566074}
+  .mc-remove{color:#0b2447;cursor:pointer;padding:6px 8px}
+  .qty-input{width:58px;padding:6px 6px;border:1px solid #dfe5f0;border-radius:8px;font-size:12px}
+
+  /* ===== Page layout ===== */
+  .wrap{max-width:1100px; margin:18px auto; padding:0 16px}
+  .grid{display:grid; grid-template-columns: 520px 1fr; gap:28px}
+  @media(max-width:960px){ .grid{grid-template-columns:1fr} }
+
+  /* Breadcrumb */
+  .crumbs{display:flex; align-items:center; gap:8px; font-size:14px; color:#334; margin:6px 0 10px; flex-wrap:wrap}
+  .crumbs a{ color:#0b3df7; font-weight:bold; display:inline-flex; align-items:center; gap:6px }
+  .crumbs .slash{ opacity:.6 }
+  .crumbs .house{ width:16px; height:16px; display:inline-block; vertical-align:middle }
+
+  /* Gallery */
+  .gallery{border:1px solid var(--line); border-radius:10px; padding:12px}
+  .main-img{width:100%; aspect-ratio:16/10; object-fit:contain; background:#fff; border:1px solid var(--line); border-radius:8px}
+  .thumbs{display:flex; gap:10px; margin-top:10px; flex-wrap:wrap}
+  .thumb{width:64px; height:64px; border:1px solid var(--line); border-radius:8px; overflow:hidden; cursor:pointer; display:flex; align-items:center; justify-content:center; background:#fff}
+  .thumb img{max-width:100%; max-height:100%; object-fit:contain}
+  .thumb.active{outline:2px solid var(--blue)}
+
+  /* Title + Chips */
+  .title{font-size:20px; font-weight:bold; line-height:1.25; margin:4px 0 12px; white-space:nowrap}
+  .chips{display:flex; gap:10px; flex-wrap:wrap; margin:0 0 10px}
+  .chip{background:var(--blue-ghost); padding:6px 12px; border-radius:18px; font-size:14px; color:#243; border:1px solid #dfe6ff; white-space:nowrap}
+  .chip b{font-weight:800}
+
+  /* Key Features */
+  .section-title{font-size:18px; font-weight:bold; margin:8px 0 10px}
+  .klist{margin:0; padding-left:18px}
+  .klist li{margin:6px 0}
+
+  /* animated link */
+  .link-underline{position:relative; display:inline-block; margin-top:10px; font-weight:bold; color:#e11d48; padding-bottom:3px}
+  .link-underline::after{content:""; position:absolute; left:0; bottom:0; height:2px; width:100%; background:var(--green); transform:scaleX(0); transform-origin:left center; transition:transform 2s ease}
+  .link-underline:hover::after{ transform:scaleX(1) }
+
+  /* Payment Options */
+  .pay-wrap{margin-top:18px}
+  .pay-title{font-weight:bold; margin:0 0 8px}
+  .payment-box{border:2px solid var(--blue); border-radius:0px; padding:14px; display:flex; align-items:flex-start; gap:12px; max-width:520px}
+  .payment-box input[type="radio"]{appearance:auto; width:18px; height:18px; accent-color:var(--blue); margin-top:3px}
+  .pay-lines h3{margin:0 0 4px; font-size:22px}
+  .pay-lines p{margin:0; font-size:14px; color:#333}
+  .pay-link{display:inline-block; color:#0b3df7; font-weight:bold; position:relative; padding-bottom:2px}
+  .pay-link::after{content:""; position:absolute; left:0; bottom:0; height:2px; width:100%; background:#0b3df7; transform:scaleX(0); transform-origin:left center; transition:transform 2s ease}
+  .pay-link:hover::after{ transform:scaleX(1) }
+
+  /* Qty + Cart */
+  .buy-row{display:flex; align-items:center; gap:12px; margin-top:16px}
+  .qty{display:inline-flex; align-items:center; border:1px solid #cfd5e6}
+  .qty button{background:#f7f8fc; border:none; padding:10px 14px; font-size:18px; cursor:pointer}
+  .qty input{width:46px; text-align:center; border:none; font-size:16px; padding:8px 0}
+  .btn-cart{position:relative; overflow:hidden; border:none; cursor:pointer; padding:12px 26px; font-size:16px; font-weight:700; color:#fff; background:var(--blue)}
+  .btn-cart::before{content:""; position:absolute; inset:0; background:var(--green); transform:translateX(-100%); transition:transform 2s ease; z-index:0}
+  .btn-cart:hover::before{ transform:translateX(0) }
+  .btn-cart span{ position:relative; z-index:1 }
+
+  /* Specification */
+  .spec-anchor{scroll-margin-top:90px}
+  .tabs-row{margin-top:24px}
+  .spec-btn{display:inline-block; background:var(--blue); color:#fff; border:1px solid var(--blue); padding:10px 16px; border-radius:8px; font-weight:bold; cursor:pointer; position:relative; overflow:hidden}
+  .spec-btn::before{content:""; position:absolute; inset:0; background:var(--green); transform:translateX(-100%); transition:transform 2s ease; z-index:0}
+  .spec-btn:hover::before{ transform:translateX(0) }
+  .spec-btn span{ position:relative; z-index:1 }
+  .spec-card{border:1px solid var(--line); border-radius:10px; margin-top:14px; overflow:hidden}
+  .spec-head{background:#fafbff; padding:14px 16px; font-size:18px; font-weight:bold}
+  .spec-body{padding:0 16px 14px}
+  .spec-group{margin-top:16px}
+  .spec-group h4{margin:0 0 8px; color:#1e40af}
+  .table{width:100%; border-collapse:collapse; font-size:14px}
+  .table tr{border-bottom:1px solid #eef1f7}
+  .table td{padding:9px 8px; vertical-align:top}
+  .table td:first-child{width:42%; color:#223; font-weight:bold}
+
+  /* Footer (short) */
+  .site-footer{background:#0b1623; color:#cfd7e6; margin-top:40px; padding:16px 0; border-top:1px solid #12314f; text-align:center; font-size:12px}
+</style>
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- ===== Header (shared with index.html) ===== -->
+  <div class="header">
+    <a class="logo" href="index.html">
+      <img src="https://dummyimage.com/64x64/ffffff/4a6cf7.png&text=A" alt="A2Z Dorkary">
+      <span style="color:#4a6cf7;">A2Z Dorkary</span>
+    </a>
+    <div class="search-wrap">
+      <div class="searchbar">
+        <div class="search-inner">
+          <i class="fa-solid fa-magnifying-glass glass"></i>
+          <input class="search-input" type="text" placeholder="Search your favorite product..." />
+        </div>
+        <button class="search-btn" onclick="location.href='index.html#products'">Search</button>
+      </div>
+    </div>
+    <div class="toolbar">
+      <a class="account" href="#"><i class="fa fa-user"></i><span><span style="font-size:11px;color:#7b88a8;display:block;line-height:1">Sign In</span><span style="font-size:14px;font-weight:700;line-height:1.1">Account</span></span></a>
+      <a class="icon-btn" href="#" title="Wishlist"><i class="fa fa-heart"></i><span id="wishCount" class="badge">0</span></a>
+      <button id="cartBtn" type="button" class="icon-btn" aria-expanded="false" title="Cart">
+        <i class="fa fa-shopping-cart"></i><span id="cartCount" class="badge">0</span>
+      </button>
+      <div class="cart-total">Total<br><strong id="cartTotal">৳0.00</strong></div>
+    </div>
+  </div>
+
+  <!-- Mini Cart Drawer -->
+  <div id="overlay" class="overlay"></div>
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <span><i class="fa fa-shopping-cart"></i> Cart (<span id="drCount">0</span>)</span>
+      <button id="drawerClose" class="icon-btn" title="Close"><i class="fa fa-times"></i></button>
+    </div>
+    <div id="drBody" class="drawer-body"></div>
+    <div class="drawer-footer">
+      <div class="subtotal">Sub Total: <span id="drSubtotal">Tk 0</span></div>
+      <button class="view-cart-btn" onclick="location.href='index.html#cart'">View Cart</button>
+    </div>
+  </aside>
+
+  <!-- ===== Breadcrumb ===== -->
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="index.html" title="Home">
+        <svg class="house" viewBox="0 0 24 24" fill="none" stroke="#0b3df7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 10.5 12 3l9 7.5"></path>
+          <path d="M5 10v9h5v-5h4v5h5v-9"></path>
+        </svg>
+        Home
+      </a>
+      <span class="slash">/</span><span>Monitor</span>
+      <span class="slash">/</span><span>MSI</span>
+      <span class="slash">/</span>
+      <span style="white-space:nowrap;">MSI G244F E2 23.8 inch FHD Rapid IPS 180Hz Gaming Monitor</span>
+    </nav>
+  </div>
+
+  <!-- ===== Product Body ===== -->
+  <main class="wrap">
+    <div class="grid">
+      <!-- Left: Gallery -->
+      <section class="gallery">
+        <img id="mainImg" class="main-img" src="https://www.startech.com.bd/image/cache/catalog/monitor/msi/g244f-e2/g244f-e2-01-500x500.webp" alt="MSI G244F E2">
+        <div class="thumbs" id="thumbs">
+          <div class="thumb active"><img src="https://www.startech.com.bd/image/cache/catalog/monitor/msi/g244f-e2/g244f-e2-01-500x500.webp" alt=""></div>
+          <div class="thumb"><img src="https://www.techlandbd.com/cache/images/uploads/products/P0402506223/picture-2_cache_optimize-40.webp" alt=""></div>
+          <div class="thumb"><img src="https://www.techlandbd.com/cache/images/uploads/products/P0402506223/picture-1_cache_optimize-40.webp" alt=""></div>
+          <div class="thumb"><img src="https://www.techlandbd.com/cache/images/uploads/products/P0402506223/picture-3_cache_optimize-40.webp" alt=""></div>
+          <div class="thumb"><img src="https://www.techlandbd.com/storage/cbs/uploads/products/P0402506118/cover_thum.jpg" alt=""></div>
+        </div>
+      </section>
+
+      <!-- Right: Content -->
+      <section>
+        <h1 class="title">MSI G244F E2 23.8 inch FHD Rapid IPS 180Hz Gaming Monitor</h1>
+
+        <div class="chips">
+          <div class="chip">Price: <b>22,900৳</b></div>
+          <div class="chip">Regular Price: <b>24,850৳</b></div>
+          <div class="chip">Status: <b>In Stock</b></div>
+          <div class="chip">Product Code: <b>31746</b></div>
+          <div class="chip">Brand: <b>MSI</b></div>
+        </div>
+
+        <div class="section-title">Key Features</div>
+        <ul class="klist">
+          <li><b>Model:</b> G244F E2</li>
+          <li><b>Resolution:</b> FHD (1920 × 1080)</li>
+          <li><b>Display:</b> IPS, 180Hz, 1ms (GTG)</li>
+          <li><b>Ports:</b> 2 × HDMI, 1 × DisplayPort, 1 × Earphone out</li>
+          <li><b>Features:</b> VESA Mountable, Adaptive-Sync</li>
+        </ul>
+
+        <a id="viewMore" class="link-underline" href="#spec">View More Details</a>
+
+        <!-- Payment -->
+        <div class="pay-wrap">
+          <div class="pay-title">Payment Options</div>
+          <label class="payment-box">
+            <input type="radio" name="pay" checked>
+            <div class="pay-lines">
+              <h3>22,900৳</h3>
+              <p>Cash Discount Price</p>
+              <p class="muted"><a class="pay-link" href="checkout.html">Online / Cash Payment</a></p>
+            </div>
+          </label>
+        </div>
+
+        <!-- Qty + Add to cart -->
+        <div class="buy-row">
+          <div class="qty">
+            <button id="minus" type="button" aria-label="Decrease">−</button>
+            <input id="qty" type="text" value="1" readonly>
+            <button id="plus" type="button" aria-label="Increase">+</button>
+          </div>
+          <button id="addToCart" type="button" class="btn-cart"><span>Add to Cart</span></button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Specification section -->
+    <div class="tabs-row" id="spec"></div>
+    <button class="spec-btn" id="specBtn"><span>Specification</span></button>
+
+    <article class="spec-card spec-anchor" id="specCard">
+      <div class="spec-head">Specification</div>
+      <div class="spec-body">
+        <div class="spec-group">
+          <h4>Display Features</h4>
+          <table class="table">
+            <tr><td>Display Size</td><td>23.8 inch</td></tr>
+            <tr><td>Display Type</td><td>LED</td></tr>
+            <tr><td>Panel Type</td><td>IPS</td></tr>
+            <tr><td>Resolution</td><td>1920 × 1080</td></tr>
+            <tr><td>Pixel pitch (MM)</td><td>0.2745(H) × 0.2745(V)</td></tr>
+            <tr><td>Display Surface</td><td>Anti-glare</td></tr>
+            <tr><td>Aspect Ratio</td><td>16:9</td></tr>
+            <tr><td>Viewing Angle</td><td>178° (H) / 178° (V)</td></tr>
+            <tr><td>Brightness</td><td>250 NITS</td></tr>
+            <tr><td>Contrast Ratio</td><td>1000:1</td></tr>
+            <tr><td>Refresh Rate</td><td>180Hz</td></tr>
+            <tr><td>Color Support</td><td>16.7M</td></tr>
+            <tr><td>Response Time</td><td>1ms (GtG)</td></tr>
+          </table>
+        </div>
+
+        <div class="spec-group">
+          <h4>Connectivity</h4>
+          <table class="table">
+            <tr><td>Display Port</td><td>Yes</td></tr>
+            <tr><td>HDMI</td><td>Yes</td></tr>
+            <tr><td>Audio Jack</td><td>Yes</td></tr>
+          </table>
+        </div>
+
+        <div class="spec-group">
+          <h4>Mechanical Design</h4>
+          <table class="table">
+            <tr><td>Tilt</td><td>-5° ~ 20°</td></tr>
+            <tr><td>VESA Wall Mount</td><td>75 × 75 mm</td></tr>
+          </table>
+        </div>
+
+        <div class="spec-group">
+          <h4>Physical Specification</h4>
+          <table class="table">
+            <tr><td>Color</td><td>Black</td></tr>
+            <tr><td>Dimension</td><td>With Stand: 541.9 × 231.9 × 424.3 mm<br>Without Stand: 541.9 × 59.7 × 322.3 mm</td></tr>
+            <tr><td>Weight</td><td>With Stand: 4.2 kg / 5.6 kg<br>Without Stand: 2.7 kg</td></tr>
+          </table>
+        </div>
+
+        <div class="spec-group">
+          <h4>Power</h4>
+          <table class="table">
+            <tr><td>Power Consumption</td><td>POWER TYPE: External Adaptor 12V 3A<br>POWER INPUT: 110~240V, 50/60Hz</td></tr>
+          </table>
+        </div>
+
+        <div class="spec-group">
+          <h4>Warranty Information</h4>
+          <table class="table">
+            <tr><td>Warranty</td><td>03 years</td></tr>
+          </table>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">© 2025 A2Z Dorkary — All rights reserved.</div>
+  </footer>
+
+<script>
+  /* ---------- Shared cart state (same as index.html) ---------- */
+  const products=[{
+    id:"p5",
+    name:"MSI G244F E2 23.8 Inch FHD Rapid IPS 180Hz Gaming Monitor",
+    image:"https://www.startech.com.bd/image/cache/catalog/monitor/msi/g244f-e2/g244f-e2-01-500x500.webp",
+    regularPrice:24850,
+    discountPrice:22900
+  }];
+
+  const CART_KEY='a2z_cart_v2';
+  const cartMap=JSON.parse(localStorage.getItem(CART_KEY) || '{}');
+  const byId=id=>products.find(p=>p.id===id);
+  const unitPrice=p=>(p.discountPrice||p.regularPrice||0);
+  const fmt=n=>"৳"+Number(n||0).toLocaleString("en-US");
+  const fmtTk=n=>"Tk "+Number(n||0).toLocaleString("en-US");
+
+  const cartCountEl=document.getElementById('cartCount');
+  const cartTotalEl=document.getElementById('cartTotal');
+  const overlay=document.getElementById('overlay');
+  const drawer=document.getElementById('drawer');
+  const drBody=document.getElementById('drBody');
+  const drSubtotal=document.getElementById('drSubtotal');
+  const drCount=document.getElementById('drCount');
+  const cartBtn=document.getElementById('cartBtn');
+
+  function saveCart(){localStorage.setItem(CART_KEY, JSON.stringify(cartMap))}
+  function calcTotals(){let items=0,total=0;for(const k in cartMap){items+=cartMap[k].qty;total+=cartMap[k].qty*cartMap[k].unit}return {items,total}}
+  function refreshHeader(){const {items,total}=calcTotals();cartCountEl.textContent=items;cartTotalEl.textContent=fmt(total);}
+  function escapeHtml(s){return (s||'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]))}
+
+  function renderDrawer(){
+    const ids=Object.keys(cartMap); const {items,total}=calcTotals();
+    drCount.textContent=items; drSubtotal.textContent=fmtTk(total);
+    if(ids.length===0){ drBody.innerHTML='<div style="padding:14px;color:#7c8aa3;text-align:center">Your cart is empty.</div>'; return; }
+    drBody.innerHTML="";
+    ids.forEach(id=>{
+      const {prod,qty,unit}=cartMap[id];
+      const div=document.createElement('div'); div.className='mc-item';
+      div.innerHTML=`<div class="mc-thumb"><img src="${prod.image}" alt=""></div>
+        <div class="mc-meta"><div class="mc-title">${escapeHtml(prod.name)}</div>
+        <div class="mc-line">${fmtTk(unit)} × <span>${qty}</span> = <strong>${fmtTk(unit*qty)}</strong></div></div>
+        <div><input class="qty-input" type="number" min="0" step="1" value="${qty}"><div class="mc-remove" title="Remove"><i class="fa fa-trash"></i></div></div>`;
+      div.querySelector('input').addEventListener('input',()=>setQty(id, parseInt(div.querySelector('input').value||"0",10)||0));
+      div.querySelector('.mc-remove').addEventListener('click',()=>removeItem(id));
+      drBody.appendChild(div);
+    });
+  }
+  function openDrawer(){renderDrawer(); overlay.classList.add('show'); drawer.classList.add('open'); document.body.style.overflow='hidden';}
+  function closeDrawer(){overlay.classList.remove('show'); drawer.classList.remove('open'); document.body.style.overflow='';}
+  document.getElementById('drawerClose').addEventListener('click',closeDrawer);
+  overlay.addEventListener('click',closeDrawer);
+  cartBtn.addEventListener('click',()=>drawer.classList.contains('open')?closeDrawer():openDrawer());
+
+  function setQty(id,qty){ if(qty<=0){delete cartMap[id]} else { if(!cartMap[id]) cartMap[id]={prod:byId(id),qty:0,unit:unitPrice(byId(id))}; cartMap[id].qty=qty } saveCart(); refreshHeader(); renderDrawer(); }
+  function removeItem(id){ delete cartMap[id]; saveCart(); refreshHeader(); renderDrawer(); }
+  function addToCart(id,qty=1,{open=false}={}){ const prod=byId(id); if(!prod) return; if(!cartMap[id]) cartMap[id]={prod,qty:0,unit:unitPrice(prod)}; cartMap[id].qty+=qty; saveCart(); refreshHeader(); if(open) openDrawer(); else renderDrawer(); }
+
+  /* ---------- Page interactions ---------- */
+  const qtyEl = document.getElementById('qty');
+  document.getElementById('minus').addEventListener('click', ()=>{ const v=Math.max(1,(parseInt(qtyEl.value,10)||1)-1); qtyEl.value=v; });
+  document.getElementById('plus').addEventListener('click', ()=>{ qtyEl.value=(parseInt(qtyEl.value,10)||1)+1; });
+
+  document.getElementById('addToCart').addEventListener('click', ()=>{
+    const qty=Math.max(1,parseInt(qtyEl.value,10)||1);
+    addToCart('p5', qty, {open:false});  // updates header & drawer + persists for index.html
+  });
+
+  /* Gallery thumbs */
+  const mainImg = document.getElementById('mainImg');
+  document.getElementById('thumbs').addEventListener('click', (e)=>{
+    const t = e.target.closest('.thumb'); if(!t) return;
+    document.querySelectorAll('.thumb').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    mainImg.src = t.querySelector('img').src;
+  });
+
+  /* Smooth scroll for spec */
+  document.getElementById('viewMore').addEventListener('click', (e)=>{
+    e.preventDefault();
+    document.getElementById('specCard').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  document.getElementById('specBtn').addEventListener('click', ()=>{
+    document.getElementById('specCard').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  /* initial header + drawer render */
+  refreshHeader(); renderDrawer();
+</script>
+</body>
+</html>
