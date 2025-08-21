@@ -61,6 +61,17 @@
     .cart-total{font-size:13px;color:#1a2547;white-space:nowrap}
     .cart-total strong{font-weight:800}
 
+    /* 👉 নতুন: কার্ট আইকন + টোটালকে একটি পিল-বাটনের ভিতরে রাখা */
+    .cart-pill{
+      border:1px solid #e6e6e6;
+      background:#fff;
+      border-radius:999px;
+      padding:8px 14px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
     .navbar{display:flex;align-items:center;gap:20px;padding:12px 20px;background:#f8f8f8;border-bottom:1px solid #e6e6e6}
     .all-categories{background:var(--primary);color:#fff;padding:10px 16px;border-radius:6px;display:flex;align-items:center;gap:10px;cursor:pointer;position:relative;user-select:none}
     .nav-links{margin-left:3cm;display:flex;gap:18px}
@@ -232,6 +243,9 @@
     .wish-pop .rm{margin-left:auto;border:none;background:#f4f6fa;border:1px solid #e6e6e6;padding:6px 8px;border-radius:6px;cursor:pointer}
     /* header heart turns red when wishlist has items */
     .has-wish > i.fa-heart{color:#e11d48}
+
+    /* === Save badge (green), top-left of product image === */
+    .save-badge{position:absolute;top:8px;left:8px;background:#10b981;color:#fff;padding:4px 8px;border-radius:6px;font-size:12px;font-weight:800;line-height:1}
   </style>
 </head>
 <body>
@@ -277,11 +291,14 @@
         </div>
       </button>
 
-      <button id="cartBtn" type="button" class="icon-btn" aria-expanded="false" title="Cart">
-        <i class="fa fa-shopping-cart"></i><span id="cartCount" class="badge">0</span>
+      <!-- 🔁 ১ নম্বর বাটনের জায়গায় রিপ্লেস: কার্ট আইকন + টোটাল (একটা পিল) -->
+      <button id="cartBtn" type="button" class="icon-btn cart-pill" aria-expanded="false" title="Cart">
+        <span style="position:relative;display:inline-flex">
+          <i class="fa fa-shopping-cart"></i>
+          <span id="cartCount" class="badge">0</span>
+        </span>
+        <span class="cart-total">Total<br><strong id="cartTotal">৳0.00</strong></span>
       </button>
-
-      <div class="cart-total">Total<br><strong id="cartTotal">৳0.00</strong></div>
     </div>
   </div>
 
@@ -619,8 +636,13 @@
         card.setAttribute('data-pid', p.id); /* ★ update: store id for sync */
         const safeName = escapeHtml(p.name);
         const featureHTML = (p.features||[]).slice(0,4).map(f=>`<li>${escapeHtml(f)}</li>`).join("");
+        const basePrice = Number(p.regularPrice||0);
+        const spPrice = Number(p.discountPrice||basePrice);
+        const saveAmt = Math.max(basePrice - spPrice, 0);
+        const saveHtml = saveAmt>0 ? `<div class="save-badge">Save: ${Number(saveAmt).toLocaleString('en-US')}৳</div>` : '';
         card.innerHTML = `
           <a class="product-image" href="${PRODUCT_PAGE_URL}?id=${p.id}" target="_self" title="Display Product">
+            ${saveHtml}
             <img src="${p.image}" alt="${safeName}" loading="lazy" draggable="false">
             <button class="wish-btn" type="button" aria-label="Wishlist"><i class="fa-solid fa-heart"></i></button>
           </a>
@@ -876,8 +898,8 @@
     /* ===================== Util ===================== */
     function qs(s,root=document){return root.querySelector(s)}
     function toggle(el){el.style.display=(el.style.display==='block'?'none':'block')}
-    function escapeHtml(s){return (s||'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]))}
-
+    function escapeHtml(s){return (s||'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','"':'&quot;','\'':'&#39;' }[m]))}
+    
     /* ===================== Init ===================== */
     // restore last page on reload
     (function restoreLast(){
